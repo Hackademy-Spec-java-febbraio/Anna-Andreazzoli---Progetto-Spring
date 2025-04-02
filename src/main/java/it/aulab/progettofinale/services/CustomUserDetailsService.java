@@ -12,6 +12,10 @@ import it.aulab.progettofinale.repositories.UserRepository;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.management.relation.Role;
 
 
 @Service
@@ -31,13 +35,20 @@ public class CustomUserDetailsService implements UserDetailsService{
         user.getUsername(),
         user.getEmail(),
         user.getPassword(),
-        getAuthorities() //viene restituita una collezione di autorizzazion GrantedAuthority, appresentano i permessi assegnati a un utente autenticato
-        
+        mapRolesToAuthorities(user.getRoles())//sostituita  la funzione “getAuthorities()” con “mapRolesToAuthorities(user.getRoles())”, che mapperà i ruoli collegati al nostro utente.
         );
     }
     
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("user"));
+    public Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<it.aulab.progettofinale.models.Role> roles) {
+        Collection<? extends GrantedAuthority> mapRoles = null;
+        if(roles.size() != 0){
+            mapRoles = roles.stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName()))
+            .collect(Collectors.toList());
+        }
+        else{
+            mapRoles = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        return mapRoles;
     }
-    
 }

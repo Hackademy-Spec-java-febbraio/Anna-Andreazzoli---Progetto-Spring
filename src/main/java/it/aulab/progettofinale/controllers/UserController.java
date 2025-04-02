@@ -68,7 +68,7 @@ public class UserController {
         
         redirectAttributes.addFlashAttribute("successMassage" , "Registrazione avvenuta con successo!");
 
-        return "redirect:/register?success"; //attiverà nel form di register la parte di codice
+        return "redirect:/"; //redirect della funzione di register verso la home
     }
 
 }    
