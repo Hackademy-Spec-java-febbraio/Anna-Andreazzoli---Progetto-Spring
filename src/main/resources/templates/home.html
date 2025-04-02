@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="~{index ::head}"></head>
+<head th:insert="~{index :: head}"></head>
 
 <body>
 
     <head th:insert="~{index :: navbar}"></head>
+
+    <div th:if="${param.notAuthorized}">
+        <div class="alert alert-danger">
+            Not Authorized!
+        </div>
+    </div>
 
     <div class="container-fluid">
         <div class="row ms-5 vh-100 align-items-center">
@@ -19,4 +25,5 @@
     <script th:replace="~{index :: bootstrapScript}"></script>
 
 </body>
+
 </html>

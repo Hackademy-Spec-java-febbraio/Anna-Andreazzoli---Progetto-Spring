@@ -18,6 +18,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+
+
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -32,7 +37,7 @@ public class UserServiceImpl implements UserService {
         User user = new User(); //creo un nuovo oggetto utente perchè UserDTO non è un'entità quindi non lo posso salvare direttamente
         user.setUsername(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(passwordEncoder().encode(userDto.getPassword())); //codifico la password con BCryptPasswordEncoder in modo che non venga salvata in chiaro nel database
+        user.setPassword(passwordEncoder.encode(userDto.getPassword())); //codifico la password con BCryptPasswordEncoder in modo che non venga salvata in chiaro nel database
 
         userRepository.save(user);
     }
