@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -43,6 +44,10 @@ public class Article {
     @Size(max = 1000)
     private String body;
 
+    // Aggiunta della proprietà publishDate
+    @Column(name = "publish_date") // Specifica il nome della colonna nel database (opzionale)
+    private LocalDate publishDate;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties("articles")
@@ -52,4 +57,10 @@ public class Article {
     @JsonIgnoreProperties("articles")
     private Category category;
 
+    @OneToOne(mappedBy = "article")
+    @JsonIgnoreProperties("article")
+    private Image image;
+    
+
+    // Getter e setter per publishDate sono già generati da @Getter e @Setter di Lombok
 }
