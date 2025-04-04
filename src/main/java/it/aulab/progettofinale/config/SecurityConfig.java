@@ -31,7 +31,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/register/**").permitAll()
-                        .requestMatchers("/register").permitAll()
+                        .requestMatchers("/register", "/", "/articles", "/images/**").permitAll() //permette l'accesso a tutti gli utenti e non solo agli utenti autenticati e e i permessi di visualizzazione anche a qualsiasi risorsa statica presente all’interno delfolder “images“
                         .anyRequest().authenticated())
                 .formLogin(form -> form.loginPage("/login")
                         .loginProcessingUrl("/login")
