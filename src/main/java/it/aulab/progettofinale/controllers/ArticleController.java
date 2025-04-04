@@ -1,6 +1,10 @@
 package it.aulab.progettofinale.controllers;
 
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +22,7 @@ import it.aulab.progettofinale.models.Article;
 import it.aulab.progettofinale.models.Category;
 import it.aulab.progettofinale.services.ArticleService;
 import it.aulab.progettofinale.services.CrudService;
+import it.aulab.progettofinale.dtos.ArticleDto;
 import it.aulab.progettofinale.dtos.CategoryDto;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +38,18 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+
+    //Rotta index degli articoli 
+    @GetMapping
+    public String articlesIndex(Model viewModel){
+        viewModel.addAttribute("title", "Tutti gli Articoli");
+        
+        List<ArticleDto> articles = articleService.readAll();
+        
+        Collections.sort(articles, Comparator.comparing(ArticleDto::getPublishDate).reversed()); //ordina i risultati in base all’articolo più recente che di conseguenza viene visualizzato per primo
+        viewModel.addAttribute("articles", articles);
+        return "article/articles";
+    }
     
 
     //Rotta per la creazione di un articolo
