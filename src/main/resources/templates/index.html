@@ -48,11 +48,11 @@
                             Accesso
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a sec:authorize="isAnonymous" class="dropdown-item" href="@{/register}"
+                            <li><a sec:authorize="isAnonymous" class="dropdown-item" th:href="@{/register}"
                                     aria-current="page">Register</a></li>
-                            <li><a sec:authorize="isAnonymous" class="dropdown-item" href="@{/login}"
+                            <li><a sec:authorize="isAnonymous" class="dropdown-item" th:href="@{/login}"
                                     aria-current="page">Login</a></li>
-                            <li><a sec:authorize="isAuthenticated" class="dropdown-item" href="@{/logout}"
+                            <li><a sec:authorize="isAuthenticated" class="dropdown-item" th:href="@{/logout}"
                                     aria-current="page">Logout</a></li>
                         </ul>
                     </li>
