@@ -59,7 +59,7 @@ public class ArticleController {
         viewModel.addAttribute("title", "Crea un articolo");
         viewModel.addAttribute("article", new Article());
         viewModel.addAttribute("categories", categoryService.readAll());
-        return "articles/create";
+        return "article/create";
         
     }
 
@@ -77,7 +77,7 @@ public class ArticleController {
             viewModel.addAttribute("title", "Crea un articolo");
             viewModel.addAttribute("article", article);
             viewModel.addAttribute("categories", categoryService.readAll());
-            return "articles/create";
+            return "article/create";
         }
 
         articleService.create(article, principal, file);
@@ -90,7 +90,7 @@ public class ArticleController {
     public String articleDetail(@PathVariable("id") Long id, Model viewModel){
         viewModel.addAttribute("title", "Article Detail");
         viewModel.addAttribute("article", articleService.read(id));
-        return "articles/detail";
+        return "article/detail";
     }
 }
 
