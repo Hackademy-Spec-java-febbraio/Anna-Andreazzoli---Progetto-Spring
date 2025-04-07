@@ -32,7 +32,9 @@ public class CategoryService implements CrudService<CategoryDto, Category, Long>
     }
 
     @Override
-    public CategoryDto read(Long key) {return null;}
+    public CategoryDto read(Long key) {
+        return modelMapper.map(categoryRepository.findById(key), CategoryDto.class);
+    }
 
     @Override
     public CategoryDto create(Category model, Principal principal, MultipartFile file) {return null;}
