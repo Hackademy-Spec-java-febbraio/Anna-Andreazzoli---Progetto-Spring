@@ -86,7 +86,7 @@ public class ArticleController {
     }
 
     //Rotta per dettaglio di un articolo
-    @GetMapping("{detail/{id}")
+    @GetMapping("detail/{id}")
     public String articleDetail(@PathVariable("id") Long id, Model viewModel){
         viewModel.addAttribute("title", "Article Detail");
         viewModel.addAttribute("article", articleService.read(id));

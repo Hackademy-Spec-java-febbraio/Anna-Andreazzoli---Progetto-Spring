@@ -102,7 +102,7 @@ public class UserController {
         List<ArticleDto> articles = articleService.searchByAuthor(user);
         viewModel.addAttribute("articles", articles);
 
-        return "articles/articles";
+        return "article/articles";
     }
 }    
 

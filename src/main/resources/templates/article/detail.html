@@ -21,17 +21,15 @@
                     <div id="carouselExample" class="carousel slide">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img th:if="${article.image != null}" th:src="${article.image.path}"
-                                    class="card-img-top" alt="...">
-                                <img th:unless="${article.image != null}" th:src="@{/images/default.jpg}"
-                                    class="card-img-top" alt="...>                        
+                                <img th:if="${article.image != null}" th:src="${article.image.path}" class="card-img-top" alt="...">
+                                <img th:unless="${article.image != null}" th:src="@{/images/default.jpg}" class="card-img-top" alt="...">                       
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample data-bs-slide="next"> 
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next"> 
                             <span class="carousel-control-next-icon"aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
@@ -41,7 +39,7 @@
                         <h2 th:text="${article.subtitle}">Sottotitolo</h2>
 
                             <p class="fs-5" href="${article.category != null}">Categoria:
-                                <a th:href="@{/categories/search/{id}(id-${article.category.id})}" class="text-capitalize fw-bold text-muted" th:text="${article.category.name}">categoria</a>
+                                <a th:href="@{/categories/search/{id} (id-${article.category.id})}" class="text-capitalize fw-bold text-muted" th:text="${article.category.name}">categoria</a>
                             </p>
 
                             <p class="fs-5" th:if="${article.category == null}">Nessuna categoria</p>
