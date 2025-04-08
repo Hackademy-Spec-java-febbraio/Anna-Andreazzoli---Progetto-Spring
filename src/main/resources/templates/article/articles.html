@@ -24,7 +24,7 @@
             <div class="row justify-content-center mb-5">
                 <div th:each="article:${articles}" class="col-12 col-md-4 d-flex justify-content-center">
                     <div class="card mb-3" style="width: 18rem;">
-                        <ing th:if="${article.image != null}" th:src="${article.image.path}" class="card-img-top"
+                        <img th:if="${article.image != null}" th:src="${article.image.path}" class="card-img-top"
                             alt="..."> <img th:unless="${article.image != null}" th:src="@{/images/default.jpg}"class="card-ing-top" alt="..."> <!-- possibilità di visualizzare un immagine di default se articolo creato senza immagine  -->
 
                             <div class="card-body">
@@ -32,7 +32,7 @@
                                 <p class="card-text" th:text="${article.subtitle}"></p>
                                 <p class="card-text" th:text="${article.user.username}"></p>
 
-                                <a th:href="@{/articles/detail/{id}(id-${article.id})}"class="btn btn-primary">Leggi</a>
+                                <a th:href="@{/articles/detail/{id}(id=${article.id})}"class="btn btn-primary">Leggi</a>
                             </div>
                     </div>
                 </div>

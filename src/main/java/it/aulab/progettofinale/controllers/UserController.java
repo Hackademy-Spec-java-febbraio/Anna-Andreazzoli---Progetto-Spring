@@ -14,16 +14,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import it.aulab.progettofinale.dtos.ArticleDto;
-import it.aulab.progettofinale.dtos.UserDto;
-import it.aulab.progettofinale.models.User;
+
 import it.aulab.progettofinale.services.ArticleService;
+import it.aulab.progettofinale.services.CategoryService;
 import it.aulab.progettofinale.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
-
+import it.aulab.progettofinale.models.User;
+import it.aulab.progettofinale.repositories.CareerRequestRepository;
+import it.aulab.progettofinale.dtos.ArticleDto;
+import it.aulab.progettofinale.dtos.UserDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -36,6 +38,12 @@ public class UserController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private CareerRequestRepository careerRequestRepository;
+
+    @Autowired
+    private CategoryService categoryService;
     
 
     // Rotta di home page
@@ -104,5 +112,13 @@ public class UserController {
 
         return "article/articles";
     }
-}    
 
+    //rotta per la dashboard dell'admin
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard(Model viewModel) {
+        viewModel.addAttribute("title", "Richieste ricevute");
+        viewModel.addAttribute("requests", careerRequestRepository.findByIsCheckedFalse());//filtra tutti i record eliminando quelli che hanno il campo is_checked a true
+        viewModel.addAttribute("categories", categoryService.readAll());
+        return "admin/dashboard";
+    }     
+}

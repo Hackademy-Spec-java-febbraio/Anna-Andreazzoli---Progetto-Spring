@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.aulab.progettofinale.models.CareerRequest;
+import it.aulab.progettofinale.models.Role;
 import it.aulab.progettofinale.models.User;
 import it.aulab.progettofinale.repositories.CareerRequestRepository;
+import it.aulab.progettofinale.repositories.RoleRepository;
+import it.aulab.progettofinale.repositories.UserRepository;
 
 
 
@@ -20,6 +23,12 @@ public class CareerRequestServiceImpl  implements CareerRequestService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     
     @Transactional
@@ -41,19 +50,36 @@ public class CareerRequestServiceImpl  implements CareerRequestService {
         careerRequestRepository.save(careerRequest);
 
         // invio richiesta del ruolo tramite mail  ad admin 
-        emailService.sendSimpleEmail("adminAulabpost@admin.com", "Richiesta per ruolo" + careerRequest.getRole().getName(), "C'è una richiesta di collaborazione da parte di " + user.getUsername());
+        emailService.sendSimpleEmail("adminAulabpost1@admin.com", "Richiesta per ruolo" + careerRequest.getRole().getName(), "C'è una richiesta di collaborazione da parte di " + user.getUsername());
     }
 
     @Override
     public void careerAccept(Long requestId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'careerAccept'");
+       //recupero richiesta
+       CareerRequest request = careerRequestRepository.findById(requestId).get();
+
+       //dalla richiesta estraggo utante richiedente e ruolo richiesto 
+        User user = request.getUser();
+        Role role = request.getRole();
+
+        //recupero tutti ruoli che utente già possiede e aggiungo il nuovo ruolo
+        List<Role> rolesUser = user.getRoles();
+        Role newRole = roleRepository.findByName(role.getName());
+        rolesUser.add(newRole);
+
+        //salvo tutte le nuove modifiche 
+        user.setRoles(rolesUser);
+        userRepository.save(user);
+        request.setIsChecked(true);
+        careerRequestRepository.save(request);
+
+        emailService.sendSimpleEmail( user.getEmail(), "Ruolo abilitato", "Ciao , la tua richiesta di collaborazione è stata accettata dalla nostra amministrazione");
+
     }
 
     @Override
     public CareerRequest find(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'find'");
+        return careerRequestRepository.findById(id).get();
     }
 
 }

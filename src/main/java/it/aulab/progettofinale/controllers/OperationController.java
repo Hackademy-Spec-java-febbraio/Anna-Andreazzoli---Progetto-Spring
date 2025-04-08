@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -69,5 +70,20 @@ public class OperationController {
         redirectAttributes.addFlashAttribute("successMessage", "Richiesta di collaborazione inviata con successo!");
         return "redirect:/";
     }
-    
+        //rotta per il dettaglio di una richiesta 
+    @GetMapping("/career/request/detail/{id}")
+    public String careerRequestDetail(@PathVariable("id") Long id, Model viewModel) {
+        viewModel.addAttribute("title", "Dettaglio richiesta");
+        viewModel.addAttribute("request", careerRequestService.find(id));
+        return "career/requestDetail";
+    }
+    //rotta per l'accettazione di una richiesta
+    @PostMapping("/career/request/accept/{requestId}")
+    public String careerRequestAccept(@PathVariable  Long requestId, RedirectAttributes redirectAttributes) {
+        
+        careerRequestService.careerAccept(requestId);
+        redirectAttributes.addFlashAttribute("successMessage", "Ruolo abilitato per l'utente!");
+        
+        return "redirect:/admin/dashboard";
+    }
 }
