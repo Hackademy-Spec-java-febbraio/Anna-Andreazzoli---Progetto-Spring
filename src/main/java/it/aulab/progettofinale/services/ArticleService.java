@@ -87,14 +87,77 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
     }
 
     @Override
-    public ArticleDto update(Long key, Article model, MultipartFile file) {
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public ArticleDto update(Long key, Article updatedArticle, MultipartFile file) {
+        String url="";
+
+        if(articleRepository.existsById(key)){
+
+            updatedArticle.setId(key);
+            
+            Article article = articleRepository.findById(key).get();
+
+            updatedArticle.setUser(article.getUser());
+
+            if(!file.isEmpty()){
+                try {
+                    //Elimino l'immagine precedente
+                    imageService.deleteImage(article.getImage().getPath());
+                    try {//Salvo la nuova immagine
+                        CompletableFuture<String> futureUrl = imageService.saveImageOnCloud(file);
+                        url = futureUrl.get();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }   
+                    //Salvo il nuovo path nel db
+                    imageService.saveImageOnDB(url, updatedArticle);
+                    
+                    //Essendo l'immagine modificata l'articolo torna in revisione
+                    updatedArticle.setIsAccepted (null);
+                    return modelMapper.map(articleRepository.save(updatedArticle), ArticleDto.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else if(article.getImage() == null){//se l'articolo originale non ha un'immagine nemmeno quello da modificare allora sicuramente non è stata fatta alcuna modifica
+                 updatedArticle.setIsAccepted (article.getIsAccepted());
+            }else{
+                //Se l'immagine non è stata modificata devo fare un check su tutti gli altri campi se diversi l'articolo torna in revisione
+
+                //Se l'immagine non è stata modificata posso impostare sull'articolo modificato la stessa immagine dell'articolo di originale 
+                updatedArticle.setImage(article.getImage());
+                
+                if (updatedArticle.equals(article) ==false){
+                    updatedArticle.setIsAccepted ( null);
+                }else{
+                    updatedArticle.setIsAccepted (article.getIsAccepted());
+                }
+
+                return modelMapper.map(articleRepository.save(updatedArticle), ArticleDto.class);
+            }
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        return null;
     }
 
     @Override
-    public void delete(Long key) {
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    } 
+    public void delete (Long key) {
+        if (articleRepository.existsById(key)) {
+
+            Article article = articleRepository.findById(key).get();
+
+            try {
+                String path = article.getImage().getPath();
+                article.getImage().setArticle (null);
+                imageService.deleteImage(path);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            articleRepository.deleteById(key);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     public List<ArticleDto> searchByCategory(Category category) {
         List<ArticleDto> dtos = new ArrayList<ArticleDto>();
