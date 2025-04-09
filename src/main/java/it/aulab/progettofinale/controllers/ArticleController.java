@@ -1,13 +1,16 @@
 package it.aulab.progettofinale.controllers;
 
 import java.security.Principal;
+import java.security.cert.LDAPCertStoreParameters;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import  org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -119,6 +122,21 @@ public class ArticleController {
 
         return "redirect:/revisor/dashboard";
     }
+
+    //rotta di ricerca di un articolo
+    @GetMapping("/search")
+    public String articleSearch(@Param("keyword") String keyword, Model viewModel) {
+        viewModel.addAttribute("title", "Tutti gli articoli trovati");
+
+        List<ArticleDto> articles = articleService.search(keyword);
+
+        List<ArticleDto> acceptedArticles = articles.stream().filter(article-> Boolean.TRUE.equals(article.getIsAccepted())).collect(Collectors.toList());
+
+        viewModel.addAttribute("articles", acceptedArticles);
+
+        return "article/articles";
+    }
+    
 }
 
 
