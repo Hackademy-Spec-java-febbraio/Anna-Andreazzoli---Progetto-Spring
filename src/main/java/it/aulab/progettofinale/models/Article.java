@@ -48,6 +48,11 @@ public class Article {
     @Column(name = "publish_date") // Specifica il nome della colonna nel database (opzionale)
     private LocalDate publishDate;
 
+    @Column(nullable = true)
+    private Boolean isAccepted;
+    
+
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties("articles")

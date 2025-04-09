@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.aulab.progettofinale.models.Article;
 import it.aulab.progettofinale.models.Category;
+import it.aulab.progettofinale.repositories.ArticleRepository;
 import it.aulab.progettofinale.services.ArticleService;
 import it.aulab.progettofinale.services.CrudService;
 import it.aulab.progettofinale.dtos.ArticleDto;
@@ -39,6 +41,14 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private ArticleRepository articleRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+    
+
 
     //Rotta index degli articoli 
     @GetMapping
@@ -69,7 +79,7 @@ public class ArticleController {
                                 BindingResult result, 
                                 RedirectAttributes redirectAttributes, 
                                 Principal principal,
-                                MultipartFile file,
+                                @RequestParam("file") MultipartFile file,
                                 Model viewModel) {
 
         //Controllo degli errori con validazioni 
@@ -92,5 +102,23 @@ public class ArticleController {
         viewModel.addAttribute("article", articleService.read(id));
         return "article/detail";
     }
+
+    //rotta dedicata all'azione del revisore 
+    @PostMapping("/accept")
+    public String articleSetAccepted(@RequestParam("action") String action, @RequestParam("articleId") Long articleId, RedirectAttributes redirectAttributes) {
+    
+        if (action.equals("accept")) {
+            articleService.setIsAccepted( true , articleId);
+            redirectAttributes.addFlashAttribute("resultMessage", "Articolo accettato con successo!");
+        } else if (action.equals("reject")) {
+            articleService.setIsAccepted(false, articleId);
+            redirectAttributes.addFlashAttribute("resultMessage", "Articolo rifiutato!");
+        } else{
+            redirectAttributes.addFlashAttribute("resultMessage", "Articolo non corretta!");
+        }
+
+        return "redirect:/revisor/dashboard";
+    }
 }
+
 

@@ -54,7 +54,7 @@ public class ImageServiceImpl implements ImageService {
                 try {
                     String nameFile = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
                     String extension = StringManipulation.getFileExtension(nameFile);
-                    String url = supabaseUrl + "/storage/v1/object/public/db1" + supabaseBucket + "/" + nameFile;
+                    String url = supabaseUrl + "/storage/v1/object/" + supabaseBucket + "/" + nameFile;
 
                     MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 

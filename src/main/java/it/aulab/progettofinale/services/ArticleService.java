@@ -75,6 +75,8 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
             }
         }
 
+        article.setIsAccepted(null);
+
         String url = "";
         ArticleDto dto = modelMapper.map(articleRepository.save(article), ArticleDto.class);
         if(!file.isEmpty()){
@@ -109,4 +111,11 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
         }
         return dtos;
     }
+
+    public void setIsAccepted(Boolean result, Long id) {
+        Article article = articleRepository.findById(id).get();
+        article.setIsAccepted(result);
+        articleRepository.save(article);
+    }
+        
 }

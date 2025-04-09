@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/register/**").permitAll()
                         .requestMatchers("/admin/dashboard", "/categories/create","/categories/edit/{id}", "/categories/update/{id}", "/categories/delete/{id}").hasRole("ADMIN")
+                        .requestMatchers("/revisor/dashboard", "revisor/detail/{id}", "/accept").hasRole("REVISOR")
                         .requestMatchers("/register", "/", "/articles", "/images/**", "articles/detail/**","/categories/search/{id}", "/search/{id}" ).permitAll() //permette l'accesso a tutti gli utenti e non solo agli utenti autenticati e e i permessi di visualizzazione anche a qualsiasi risorsa statica presente all’interno delfolder “images“
                         .anyRequest().authenticated())
                 .formLogin(form -> form.loginPage("/login")

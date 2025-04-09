@@ -11,4 +11,7 @@ import it.aulab.progettofinale.models.User;
 public interface ArticleRepository extends ListCrudRepository<Article, Long>{
     List<Article> findByUser(User user);
     List<Article> findByCategory(Category category);
+    List<Article> findByIsAcceptedTrue();
+    List<Article> findByIsAcceptedFalse();
+    List<Article> findByIsAcceptedIsNull();
 }
