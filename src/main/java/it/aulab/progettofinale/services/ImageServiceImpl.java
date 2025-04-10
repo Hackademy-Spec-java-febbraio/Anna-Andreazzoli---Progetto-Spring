@@ -32,13 +32,13 @@ public class ImageServiceImpl implements ImageService {
     @Value("${supabase.url}")
     private String supabaseUrl;
 
-    @Value("${supabase.key}}")
+    @Value("${supabase.key}")
     private String supabaseKey;
 
-    @Value("${supabase.bucket}}")
+    @Value("${supabase.bucket}")
     private String supabaseBucket;
 
-    @Value("${supabase.image}}")
+    @Value("${supabase.image}")
     private String supabaseImage;
 
     private final RestTemplate restTemplate = new RestTemplate();

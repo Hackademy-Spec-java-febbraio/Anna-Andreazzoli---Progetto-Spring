@@ -58,6 +58,7 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
 
     @Override
     public ArticleDto create(Article article, Principal principal, MultipartFile file) {
+        String url ="";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -67,7 +68,7 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
         
         if(!file.isEmpty()){
             try {
-                String url = "";
+                // String url = "";
                 CompletableFuture<String> futureUrl = imageService.saveImageOnCloud(file);
                 url = futureUrl.get();
             } catch (Exception e) {
@@ -77,7 +78,7 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
 
         article.setIsAccepted(null);
 
-        String url = "";
+        // String url = "";
         ArticleDto dto = modelMapper.map(articleRepository.save(article), ArticleDto.class);
         if(!file.isEmpty()){
             imageService.saveImageOnDB(url, article);
