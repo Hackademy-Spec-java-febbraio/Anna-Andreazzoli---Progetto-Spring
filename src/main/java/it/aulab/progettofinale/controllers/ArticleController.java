@@ -60,7 +60,10 @@ public class ArticleController {
         
         List<ArticleDto> articles = articleService.readAll();
         
-        Collections.sort(articles, Comparator.comparing(ArticleDto::getPublishDate).reversed()); //ordina i risultati in base all’articolo più recente che di conseguenza viene visualizzato per primo
+        // Ordina per data di pubblicazione decrescente (più recente prima),
+     // mettendo gli articoli con data nulla alla fine.
+        articles.sort(Comparator.comparing(ArticleDto::getPublishDate, Comparator.nullsLast(Comparator.reverseOrder())));
+
         viewModel.addAttribute("articles", articles);
         return "article/articles";
     }
@@ -118,8 +121,7 @@ public class ArticleController {
      //Rotta di memorizzazione modifica di un articolo 
      @PostMapping("/update/{id}")
      public String articleUpdate(@PathVariable("id") Long id,
-                                @Valid @ModelAttribute("article") 
-                                Article article,
+                                @Valid @ModelAttribute("article") Article article,
                                 BindingResult result,
                                 RedirectAttributes redirectAttributes,
                                 Principal principal,
