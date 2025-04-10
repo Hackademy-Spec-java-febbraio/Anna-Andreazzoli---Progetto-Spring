@@ -53,7 +53,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item" sec:authorize="hasRole('ROLE_RIVISOR')">
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_REVISOR')">
                         <div class="d-flex">
                             <a class="nav-link" href="/revisor/dashboard">Dashboard revisor</a>
                             <div class="mt-1" th:if="${articlesToBeRevised > 0}">

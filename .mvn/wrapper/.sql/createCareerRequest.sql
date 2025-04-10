@@ -1,9 +1,10 @@
-CREATE TABLE career_request (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    body TEXT,
+CREATE TABLE IF NOT EXISTS career_request(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    body TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_id BIGINT,
-    FOREIGN KEY (user_id) REFERENCES users(id),
     role_id BIGINT,
+    FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (role_id) REFERENCES roles(id),
     is_checked BOOLEAN
 );

@@ -1,4 +1,4 @@
-insert into users (username, email, password, created_at) values ('admin', 'admin@aulab.it','$2y$10$oV0DEHJCcPNMbB7iGI08V.NWF0HZDrYjEv1hFufdzT4AIa.GYyvP6adm', '20240607');
+insert into users (username, email, password, created_at) values ('admin', 'admin@aulab.it','$2y$10$Aon1eN7mr5mQQxt8a/CoZeOJ1MgL4FTuppTaAKv5VlfMThjXdwEga', '20240607');
 
 insert into roles (name) values ('ROLE_ADMIN'), ('ROLE_REVISOR'), ('ROLE_WRITER'), ('ROLE_USER');
 

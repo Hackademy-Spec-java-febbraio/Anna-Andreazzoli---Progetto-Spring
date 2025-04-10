@@ -39,7 +39,7 @@
                                 <td th:if="${article.category}" th:text="${article.category.name}"></td>
                                 <td th:unless="${article.category}">Nessuna categoria</td>
                                 <td>
-                                    <a th:href="@{/articles/revisor/detail/{id}(id-${article.id})}" class="btn btn-primary m-2">
+                                    <a th:href="@{/articles/revisor/detail/{id}(id=${article.id})}" class="btn btn-primary m-2">
                                         Leggi
                                     </a>
                                 </td>
@@ -52,6 +52,6 @@
     </div>
 
     <head th:insert="~{index :: footer}"></head>
-    <script th:insert="~{index :: BootrstraScript}"></script>
+    <script th:insert="~{index :: bootstrapScript}"></script>
 </body>
 </html>
