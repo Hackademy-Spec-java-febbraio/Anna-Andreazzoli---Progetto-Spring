@@ -3,28 +3,33 @@
 
 <head th:insert="~{index :: head}"></head>
 
-<body>
-    <head th:insert="~{index :: navbar}"></head>
+<body style="font-family: Arial, sans-serif; background-color: #f8f9fa;">
 
-    <div class="min-vh-100">
-        <div th:if="${successMessage}" class="alert alert-success">
-            <p th:text="${successMessage}"></p>
+    <div th:insert="~{index :: navbar}"></div>
+
+    <div class="min-vh-100" style="padding-top: 50px;">
+        <!-- Success Message Alert -->
+        <div th:if="${successMessage}" class="alert alert-success" style="max-width: 600px; margin: 20px auto; text-align: center;">
+            <p th:text="${successMessage}" style="font-size: 18px; margin-bottom: 0;"></p>
         </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-12 my-5 d-flex justify-content-center align-items-center"> 
-                    <span class="h1">Dashboard Writer</span>
-                </div>
+         <!-- Dashboard Header -->
+         <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="display-4" style="font-size: 3rem; color: #343a40; font-weight: 600;">Dashboard Revisor</h1>
+            </div>
+        </div>
 
-                <div class="col-12 my-5 d-flex justify-content-center align-items-center"> 
-                    <span class="h1"th:text="${title}">I tuoi articoli</span> 
-                </div>
-
+        <!-- Section Title -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h2 th:text="${title}" style="font-size: 2rem; color: #007bff;">Articoli da revisionare</h2>
+            </div>
+        </div>
 
                 <div class="col-12">
-                    <table class="table table-striped table-responsive-lg">
-                        <thead>
+                    <table class="table table-striped table-responsive-lg" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <thead style="background-color: #007bff; color: white;">
                             <tr>
                                 <th>Id</th>
                                 <th>Title</th>
@@ -34,20 +39,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="article:${articles}">
-                                <td th:text="${article.id}"></td>
-                                <td th:text="${article.title}"></td>
-                                <td th:text="${article.subtitle}"></td>
-                                <td th:if="${article.category}" th:text="${article.category.name}"></td>
-                                <td th:unless="${article.category}">Nessuna categoria</td>
-                                <td>
-                                    <a th:href="@{/articles/detail/{id}(id=${article.id})}" class="btn btn-primary m-2">
+                            <tr th:each="article : ${articles}" style="background-color: white;">
+                                <td th:text="${article.id}" style="padding: 12px; font-size: 16px;"></td>
+                                <td th:text="${article.title}" style="padding: 12px; font-size: 16px;"></td>
+                                <td th:text="${article.subtitle}" style="padding: 12px; font-size: 16px;"></td>
+                                <td th:if="${article.category}" th:text="${article.category.name}" style="padding: 12px; font-size: 16px;"></td>
+                                <td th:unless="${article.category}" style="padding: 12px; font-size: 16px;">Nessuna categoria</td>
+                                <td style="padding: 12px;">
+                                    <a th:href="@{/articles/detail/{id}(id=${article.id})}" class="btn btn-primary m-2" style="font-size: 18px;">
                                         <i class="fa-solid fa-bars"></i>
                                     </a>
-                                    <a th:href="@{/articles/edit/{id}(id=${article.id})}" class="btn btn-warning m-2">
+                                    <a th:href="@{/articles/edit/{id}(id=${article.id})}" class="btn btn-warning m-2" style="font-size: 18px;">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
-                                    <a th:href="@{/articles/delete/{id}(id=${article.id})}" class="btn btn-danger m-2"> 
+                                    <a th:href="@{/articles/delete/{id}(id=${article.id})}" class="btn btn-danger m-2" style="font-size: 18px;"> 
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
                                 </td>
@@ -59,7 +64,9 @@
         </div>
     </div>
 
-    <head th:insert="~{index :: footer}"></head>
+    <div th:insert="~{index :: footer}"></div>
     <script th:replace="~{index :: bootstrapScript}"></script>
+
 </body>
+
 </html>
